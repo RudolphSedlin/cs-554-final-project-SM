@@ -14,4 +14,6 @@ const getCollectionFn = (collection) => {
 };
 
 export const posts = getCollectionFn('posts');
+export const comments = getCollectionFn('comments');
+export const tags = getCollectionFn('tags');
 export const users = getCollectionFn('users');
