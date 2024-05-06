@@ -21,7 +21,7 @@ export const createUserDB = async (
 	// TODO: validate picture
 
 	let { success, data } = await registerUser(email, password);
-	if (!success) throw `Could not register user: ${data}`;
+	if (!success) throw `User registration error: ${data}`;
 
 	let userData = {
 		uid: data.uid,
@@ -35,7 +35,7 @@ export const createUserDB = async (
 	const usersCollection = await users();
 	const insertInfo = await usersCollection.insertOne(userData);
 	if (!insertInfo.acknowledged || !insertInfo.insertedId)
-		throw `Unable to register user with username ${username}`;
+		throw `User registration error: DB error for ${username}`;
 	const newId = insertInfo.insertedId.toString();
 	console.log(newId);
 
@@ -48,13 +48,14 @@ export const createUserDB = async (
 	};
 };
 
-export const getUserDB = async (userId) => {
-	userId = valid.validObjectId(userId);
-	userId = new ObjectId(userId);
+export const getUserDB = async (objectId) => {
+	objectId = valid.validObjectId(objectId);
+	objectId = new ObjectId(objectId);
 
 	const usersCollection = await users();
-	const user = await usersCollection.findOne({ _id: userId });
-	if (user === null) throw `No such user with id ${userId}`;
+	const user = await usersCollection.findOne({ _id: objectId });
+	if (user === null)
+		throw `User retrieval error: No user with ObjectId ${objectId}`;
 
 	return user;
 };
@@ -64,8 +65,8 @@ export const getUserFromUsernameDB = async (username) => {
 
 	const usersCollection = await users();
 	const user = await usersCollection.findOne({ username: username });
-	if (user === null) return null;
-
+	if (user === null)
+		throw `User retrieval error: No user with username ${username}`;
 	return user;
 };
 

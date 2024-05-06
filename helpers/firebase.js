@@ -1,10 +1,9 @@
 import {
-	getAuth,
+	auth,
 	createUserWithEmailAndPassword,
 	signInWithEmailAndPassword,
 	signOut
 } from '../firebaseConfig.js';
-const auth = getAuth();
 const authErrors = {
 	'admin-restricted-operation':
 		'This operation is restricted to administrators only.',
@@ -206,8 +205,9 @@ export const loginUser = async (email, password) => {
 		);
 		return { success: true, data: userCredential.user };
 	} catch (err) {
-		console.error(`Login failed: ${err.message}`);
-		return { success: false, data: err.message };
+		let { success, data } = translateError(err.code);
+		console.error(`CODE: ${err.code}, MESSAGE: ${data}`);
+		return { success: false, data: data || err.message };
 	}
 };
 
