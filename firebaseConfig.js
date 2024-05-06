@@ -6,9 +6,10 @@ import {
 	signOut,
 	onAuthStateChanged
 } from 'firebase/auth';
+import 'dotenv/config';
 
 const firebaseConfig = {
-	apiKey: 'AIzaSyAC9_o4L4F3nG3ZemOA3x_DcBAjnDdTDsw',
+	apiKey: process.env.FIREBASE_API_KEY,
 	authDomain: 'forumblogs-cs554.firebaseapp.com',
 	projectId: 'forumblogs-cs554',
 	storageBucket: 'forumblogs-cs554.appspot.com',
