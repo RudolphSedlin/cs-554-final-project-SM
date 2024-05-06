@@ -1,41 +1,23 @@
-import * as db from './helpers/db.js';
-
-// try {
-// 	let newUser = await db.createUserDB(
-// 		'Jane',
-// 		'Doe',
-// 		'janedoe2',
-// 		'janedoe2',
-// 		'john@doe.net'
-// 	);
-// 	console.log(newUser);
-// } catch (err) {
-// 	console.error(err);
-// }
-
-// try {
-// 	let foundUser = await db.getUserFromUsernameDB('johndoe1');
-// 	console.log(foundUser);
-// } catch (err) {
-// 	console.error(err);
-// }
-
-// try {
-// 	let newUser = await db.createUserDB(
-// 		'John',
-// 		'Doe',
-// 		'johndoe4',
-// 		'twelvepassword',
-// 		'johnny@doe.net'
-// 	);
-// 	console.log(newUser);
-// } catch (err) {
-// 	console.error(err);
-// }
+import { loginUser, logoutUser, registerUser } from './helpers/firebase.js';
 
 try {
-	let loggedIn = await db.loginUserDB('johndoe', 'twelvepassword');
-	console.log(loggedIn);
+	let user = await registerUser(
+		'rishabhraj0723@gmail.com',
+		'testingPassword1'
+	);
+} catch (err) {
+	console.error(err);
+}
+
+try {
+	let user = await loginUser('rishabhraj0723@gmail.com', 'testingPassword1');
+} catch (err) {
+	console.error(err);
+}
+
+try {
+	let success = await logoutUser();
+	console.log(success);
 } catch (err) {
 	console.error(err);
 }
