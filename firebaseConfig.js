@@ -9,6 +9,7 @@ import {
 import 'dotenv/config';
 
 const firebaseConfig = {
+	/* eslint-disable-next-line no-undef */
 	apiKey: process.env.FIREBASE_API_KEY,
 	authDomain: 'forumblogs-cs554.firebaseapp.com',
 	projectId: 'forumblogs-cs554',
