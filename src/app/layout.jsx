@@ -17,6 +17,9 @@ export default function RootLayout({children}) {
             <li className='nav'>
               <Link href={'/'}>Home</Link>
             </li>
+            <li className='nav'>
+              <Link href={'/register'}>Register</Link>
+            </li>
           </ul>
           {children}
         </main>

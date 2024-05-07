@@ -1,8 +1,8 @@
 'use server';
-import validation from '@/data/validation';
+import { validName } from '../helpers/valid';
 import {redirect} from 'next/navigation';
-import {postData, userData} from '@/data/index.js';
 import {revalidatePath} from 'next/cache';
+import { createUserDB } from '../helpers/db';
 
 export async function createPost(prevState, formData) {
   let title,
@@ -65,30 +65,29 @@ export async function createPost(prevState, formData) {
 
 export async function createUser(prevState, formData) {
   let firstName,
-    lastName = null;
+    lastName, username, email, passwordOne, passwordTwo = null;
   let id = null;
   let success = false;
   let errors = [];
   firstName = formData.get('firstName');
   lastName = formData.get('lastName');
-
-  try {
-    firstName = validation.checkString(firstName, 'First Name');
-  } catch (e) {
-    errors.push(e);
-  }
-
-  try {
-    lastName = validation.checkString(lastName, 'Last Name');
-  } catch (e) {
-    errors.push(e);
+  username = formData.get('username');
+  email = formData.get('email');
+  passwordOne = formData.get('passwordOne');
+  passwordTwo = formData.get('passwordTwo');
+  if (passwordOne !== passwordTwo) {
+    errors.push('Passwords do not match');
   }
 
   if (errors.length > 0) {
     return {message: errors};
   } else {
     try {
-      let newUser = await userData.addUser(firstName, lastName);
+      let newUser = await createUserDB(firstName, lastName,
+        username,
+        email,
+        passwordOne,
+        'testbio', 'testpic');
       id = newUser._id.toString();
       success = true;
       //redirect(`/posts/${id}`); // Navigate to new route
@@ -96,8 +95,8 @@ export async function createUser(prevState, formData) {
       return {message: e};
     } finally {
       if (success) {
-        revalidatePath('/users');
-        redirect(`/users/${id}`); // Navigate to new route
+        revalidatePath('/');
+        redirect(`/`); // Navigate to new route
       }
     }
   }

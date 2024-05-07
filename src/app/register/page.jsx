@@ -1,141 +1,78 @@
 'use client'
  
-import { useRouter } from 'next/navigation'
 import React, {useContext, useState} from 'react';
-import { createUserDB } from '../../helpers/db';
 import { AuthContext } from '../../context/AuthContext';
+import styles from '@/app/form.module.css';
+import {useFormState as useFormState} from 'react-dom';
+import {createUser} from '@/app/actions';
+const initialState = {
+  message: null
+};
 
 function register() {
-  const {currentUser} = useContext(AuthContext);
-  const [pwMatch, setPwMatch] = useState('');
-  const router = useRouter()
-  const handleSignUp = async (e) => {
-    e.preventDefault();
-    const {firstName, lastName, username, email, passwordOne, passwordTwo} = e.target.elements;
-    if (passwordOne.value !== passwordTwo.value) {
-      setPwMatch('Passwords do not match');
-      return false;
-    }
-
-    try {
-      await createUserDB(
-        firstName.value,
-        lastName.value,
-        username.value,
-        email.value,
-        passwordOne.value,
-        'testbio', 'testpic'
-      );
-    } catch (error) {
-      alert(error);
-    }
-  };
-
-  if (currentUser) {
-    return router.push('/');
-  }
+  
+  const [state, formAction] = useFormState(createUser, initialState);
 
   return (
-    <div className='card'>
-      <h1>Sign up</h1>
-      {pwMatch && <h4 className='error'>{pwMatch}</h4>}
-      <form onSubmit={handleSignUp}>
-        <div className='form-group'>
-          <label>
-            First Name:
-            <br />
-            <input
-              className='form-control'
-              required
-              name='firstName'
-              type='text'
-              placeholder='Name'
-              autoFocus={true}
-            />
-          </label>
-        </div>
-        <div className='form-group'>
-          <label>
-            Last Name:
-            <br />
-            <input
-              className='form-control'
-              required
-              name='lastName'
-              type='text'
-              placeholder='Name'
-              autoFocus={true}
-            />
-          </label>
-        </div>
-        <div className='form-group'>
-          <label>
-           Username:
-            <br />
-            <input
-              className='form-control'
-              required
-              name='username'
-              type='text'
-              placeholder='Name'
-              autoFocus={true}
-            />
-          </label>
-        </div>
-        <div className='form-group'>
-          <label>
-            Email:
-            <br />
-            <input
-              className='form-control'
-              required
-              name='email'
-              type='email'
-              placeholder='Email'
-            />
-          </label>
-        </div>
-        <div className='form-group'>
-          <label>
-            Password:
-            <br />
-            <input
-              className='form-control'
-              id='passwordOne'
-              name='passwordOne'
-              type='password'
-              placeholder='Password'
-              autoComplete='off'
-              required
-            />
-          </label>
-        </div>
-        <div className='form-group'>
-          <label>
-            Confirm Password:
-            <br />
-            <input
-              className='form-control'
-              name='passwordTwo'
-              type='password'
-              placeholder='Confirm Password'
-              autoComplete='off'
-              required
-            />
-          </label>
-        </div>
-        <button
-          className='button'
-          id='submitButton'
-          name='submitButton'
-          type='submit'
+    <form action = {formAction} className={styles.myform}>
+      {state && state.message && (
+        <ul
+          aria-live='polite'
+          className={`sr-only, ${styles.myUl}`}
+          role='status'
         >
-          Sign Up
+          {state.message.map((msg, index) => {
+            return (
+              <li className='error' key={index}>
+                {msg}
+              </li>
+            );
+          })}
+        </ul>
+      )}
+      <div className='form-group'>
+        <label className={styles.myLabel}>
+          First Name:
+          <input className={styles.myInput} name='firstName' type='text' />
+        </label>
+        <br />
+      </div>
+      <div className='form-group'>
+        <label className={styles.myLabel}>
+          Last Name:
+          <input className={styles.myInput} name='lastName' type='text' />
+        </label>
+      </div>
+      <div className='form-group'>
+        <label className={styles.myLabel}>
+          Username:
+          <input className={styles.myInput} name='username' type='text' />
+        </label>
+      </div>
+      <div className='form-group'>
+        <label className={styles.myLabel}>
+          Email:
+          <input className={styles.myInput} name='email' type='email' />
+        </label>
+      </div>
+      <div className='form-group'>
+        <label className={styles.myLabel}>
+          Password:
+          <input className={styles.myInput} name='passwordOne' type='password' />
+        </label>
+      </div>
+      <div className='form-group'>
+        <label className={styles.myLabel}>
+          Confirm Password:
+          <input className={styles.myInput} name='passwordTwo' type='password' />
+        </label>
+      </div>
+      <div className='form-group'>
+        <button className={styles.myButton} type='submit'>
+          Register
         </button>
-      </form>
-      <br />
-
-    </div>
+      </div>
+    </form>
   );
 }
 
