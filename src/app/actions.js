@@ -2,7 +2,7 @@
 import { validName } from '../helpers/valid';
 import {redirect} from 'next/navigation';
 import {revalidatePath} from 'next/cache';
-import { createUserDB } from '../helpers/db';
+import { createUserDB, loginUserDB } from '../helpers/db';
 
 export async function createPost(prevState, formData) {
   let title,
@@ -96,6 +96,33 @@ export async function createUser(prevState, formData) {
     } finally {
       if (success) {
         revalidatePath('/register');
+        redirect(`/`); // Navigate to new route
+      }
+    }
+  }
+}
+
+export async function loginUser(prevState, formData) {
+  let email, password = null;
+  let id = null;
+  let success = false;
+  let errors = [];
+  email = formData.get('email');
+  password = formData.get('password');
+
+  if (errors.length > 0) {
+    return {message: errors};
+  } else {
+    try {
+      let loginUser = await loginUserDB(email, password);
+      id = loginUser._id.toString();
+      success = true;
+      //redirect(`/posts/${id}`); // Navigate to new route
+    } catch (e) {
+      return {message: e};
+    } finally {
+      if (success) {
+        revalidatePath('/login');
         redirect(`/`); // Navigate to new route
       }
     }

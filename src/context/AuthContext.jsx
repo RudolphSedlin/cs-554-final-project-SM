@@ -1,33 +1,42 @@
-import React, {useState, useEffect} from 'react';
-import {getAuth, onAuthStateChanged} from 'firebase/auth';
-export const AuthContext = React.createContext();
+'use client'
+import { useState, useEffect, createContext, useContext } from "react";
+import { auth } from "@/firebase/firebaseConfig";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 
-export const AuthProvider = ({children}) => {
-  const [currentUser, setCurrentUser] = useState(null);
-  const [loadingUser, setLoadingUser] = useState(true);
-  const auth = getAuth();
+export const UserContext = createContext();
+
+export default function UserContextComp({ children }) {
+  const [user, setUser] = useState(null);
+  const [loadingUser, setLoadingUser] = useState(true); // Helpful, to update the UI accordingly.
+
   useEffect(() => {
-    let myListener = onAuthStateChanged(auth, (user) => {
-      setCurrentUser(user);
-      console.log('onAuthStateChanged', user);
-      setLoadingUser(false);
+    // Listen authenticated user
+    const unsubscriber = onAuthStateChanged(auth, async (user) => {
+      try {
+        if (user) {
+          // User is signed in.
+          const { uid, username, email } = user;
+          // You could also look for the user doc in your Firestore (if you have one):
+          // const userDoc = await firebase.firestore().doc(`users/${uid}`).get()
+          setUser({ uid, username, email });
+        } else setUser(null);
+      } catch (error) {
+        // Most probably a connection error. Handle appropriately.
+      } finally {
+        setLoadingUser(false);
+      }
     });
-    return () => {
-      if (myListener) myListener();
-    };
+
+    // Unsubscribe auth listener on unmount
+    return () => unsubscriber();
   }, []);
 
-  if (loadingUser) {
-    return (
-      <div>
-        <h1>Loading....Loading....Loading....Loading....Loading....</h1>
-      </div>
-    );
-  }
-
   return (
-    <AuthContext.Provider value={{currentUser}}>
+    <UserContext.Provider value={{ user, setUser, loadingUser }}>
       {children}
-    </AuthContext.Provider>
+    </UserContext.Provider>
   );
-};
+}
+
+// Custom hook that shorthands the context!
+export const useUser = () => useContext(UserContext);
