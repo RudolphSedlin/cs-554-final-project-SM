@@ -4,7 +4,7 @@ import React, {useContext, useState} from 'react';
 import { AuthContext } from '../../context/AuthContext';
 import styles from '@/app/form.module.css';
 import {useFormState as useFormState} from 'react-dom';
-import {createUser} from '@/app/actions';
+import { createUser } from '../actions';
 const initialState = {
   message: null
 };
@@ -15,21 +15,7 @@ function register() {
 
   return (
     <form action = {formAction} className={styles.myform}>
-      {state && state.message && (
-        <ul
-          aria-live='polite'
-          className={`sr-only, ${styles.myUl}`}
-          role='status'
-        >
-          {state.message.map((msg, index) => {
-            return (
-              <li className='error' key={index}>
-                {msg}
-              </li>
-            );
-          })}
-        </ul>
-      )}
+      {state && state.message}
       <div className='form-group'>
         <label className={styles.myLabel}>
           First Name:

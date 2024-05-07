@@ -95,7 +95,7 @@ export async function createUser(prevState, formData) {
       return {message: e};
     } finally {
       if (success) {
-        revalidatePath('/');
+        revalidatePath('/register');
         redirect(`/`); // Navigate to new route
       }
     }
