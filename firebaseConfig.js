@@ -7,7 +7,7 @@ import {
 	onAuthStateChanged
 } from 'firebase/auth';
 import 'dotenv/config';
-
+const FIREBASE_API_KEY="AIzaSyAC9_o4L4F3nG3ZemOA3x_DcBAjnDdTDsw"
 const firebaseConfig = {
 	/* eslint-disable-next-line no-undef */
 	apiKey: process.env.FIREBASE_API_KEY,
