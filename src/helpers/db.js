@@ -1,7 +1,7 @@
 import * as valid from './valid.js';
-import { users } from '../dbconfig/mongoCollections.js';
+import { users } from '../config/mongoCollections.js';
 import { ObjectId } from 'mongodb';
-import { registerUser } from './firebase.js';
+import { registerUser } from '../firebase/firebase.js';
 
 export const createUserDB = async (
 	firstName,
