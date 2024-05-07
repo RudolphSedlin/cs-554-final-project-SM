@@ -3,7 +3,7 @@
 import { useRouter } from 'next/navigation'
 import React, {useContext, useState} from 'react';
 import { createUserDB } from '../../helpers/db';
-import {AuthContext} from '../context/AuthContext';
+import { AuthContext } from '../../context/AuthContext';
 
 function register() {
   const {currentUser} = useContext(AuthContext);

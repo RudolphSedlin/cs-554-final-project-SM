@@ -2,8 +2,6 @@
   "name": "forumblogs",
   "version": "1.0.0",
   "description": "CS 554 Final Project for 2024 Spring",
-  "main": "index.js",
-  "type": "module",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
