@@ -21,7 +21,7 @@ export async function POST(req) {
 	try {
 		const user = await createUserDB(firstName, lastName, username, email, passwordOne, bio, pic);
 		return NextResponse.json(
-			{ success: true, user },
+			{ success: true },
 			{ status: 200 }
 		);
 	} catch (error) {
