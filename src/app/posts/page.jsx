@@ -5,96 +5,49 @@ import { useState, useEffect } from 'react';
 import { useAuthContext } from '@/context/AuthContext';
 
 function Posts() {
-	const [title, setTitle] = useState('');
-	const [body, setBody] = useState('');
-	const [tags, setTags] = useState('');
+	const [posts, setPosts] = useState([]);
 	const { user } = useAuthContext();
-
 	useEffect(() => {
-		if (user == null) {
-			redirect('/login');
-		} else {
-			async function fetchUser(uid) {
-				const response = await fetch(`/api/users?uid=${uid}`);
-				if (!response.ok) {
-					throw new Error('Failed to fetch user');
-				}
-				return response.json();
+		async function fetchPosts() {
+			const response = await fetch(`/api/posts`);
+			if (!response.ok) {
+				throw new Error('Failed to fetch posts');
 			}
-			fetchUser(user.uid);
+			const data = await response.json();
+			console.log(data);
+			setPosts(data);
 		}
-	}, [user]);
+		fetchPosts();
+	}, []);
 
 	const router = useRouter();
 
-	const handleForm = async (event) => {
-		event.preventDefault();
-		if (user != null) {
-			try {
-				const response = await fetch('/api/posts', {
-					method: 'POST',
-					headers: {
-						'Content-Type': 'application/json'
-					},
-					body: JSON.stringify({
-						title: title,
-						body: body,
-						username: 'jjohn123',
-						tags: tags
-					})
-				});
-				const data = await response.json();
-				if (data.success) {
-					router.push('/private');
-				} else {
-					console.error('Failed to create post:', data.message);
-				}
-			} catch (error) {
-				console.error('Error submitting form:', error);
-			}
-		}
-	};
-
 	return (
-		<form onSubmit={handleForm} className={styles.myform}>
-			<div className="form-group">
-				<label className={styles.myLabel}>
-					Title:
-					<input
-						className={styles.myInput}
-						onChange={(e) => setTitle(e.target.value)}
-						name="title"
-						type="text"
-					/>
-				</label>
-			</div>
-			<div className="form-group">
-				<label className={styles.myLabel}>
-					Body:
-					<textarea
-						className={styles.myInput}
-						onChange={(e) => setBody(e.target.value)}
-						name="body"
-					/>
-				</label>
-			</div>
-			<div className="form-group">
-				<label className={styles.myLabel}>
-					Tags:
-					<input
-						className={styles.myInput}
-						onChange={(e) => setTags(e.target.value)}
-						name="tags"
-						type="text"
-					/>
-				</label>
-			</div>
-			<div className="form-group">
-				<button className={styles.myButton} type="submit">
-					Post
-				</button>
-			</div>
-		</form>
+		<div className={styles.postsContainer}>
+			{posts.map((post) => (
+				<div key={post._id} className={styles.postCard}>
+					<p className={styles.postAuthorName}>
+						from @{post.authorUsername}
+					</p>
+					<h2 className={styles.postTitle}>{post.title}</h2>
+					<p className={styles.postContent}>{post.body}</p>
+					<div className={styles.interactions}>
+						<span>Likes: {post.likes.length}</span>
+						<span>Comments: {post.comments.length}</span>
+						<span>
+							{new Date(post.created_timestamp).toLocaleString()}
+						</span>
+					</div>
+					<div className={styles.tagContainer}>
+						{post.tags.map((tag) => (
+							<span key={tag} className={styles.tag}>
+								{tag}
+							</span>
+						))}
+					</div>
+				</div>
+			))}
+		</div>
 	);
 }
 
