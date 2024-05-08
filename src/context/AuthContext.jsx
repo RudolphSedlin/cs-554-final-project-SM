@@ -3,9 +3,11 @@ import { useState, useEffect, createContext, useContext } from "react";
 import { auth } from "@/firebase/firebaseConfig";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 
-export const AuthContext = createContext();
+export const AuthContext = createContext({});
 
-export default function AuthProvider({ children }) {
+export const useAuthContext = () => useContext(AuthContext);
+
+export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loadingUser, setLoadingUser] = useState(true); // Helpful, to update the UI accordingly.
 
@@ -15,8 +17,8 @@ export default function AuthProvider({ children }) {
       if (user) {
         setUser(user);
       } else {
-        setUser(null)
-      };
+        setUser(null);
+      }
       console.log('onAuthStateChanged', user);
       setLoadingUser(false);
     });
@@ -26,8 +28,8 @@ export default function AuthProvider({ children }) {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user, setUser, loadingUser }}>
-      {children}
+    <AuthContext.Provider value={{ user }}>
+      {loadingUser ? <div>Loading...</div> : children}
     </AuthContext.Provider>
   );
 }

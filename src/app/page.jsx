@@ -1,10 +1,10 @@
 'use client'
 import Link from 'next/link';
 import React, {useContext} from 'react';
-import { useUser, AuthContext } from '@/context/AuthContext';
+import { useAuthContext, AuthContext } from '@/context/AuthContext';
 
 export default function Home() {
-  const {user} = useContext(AuthContext);
+  const {user} = useAuthContext();
   console.log(user);
   return (
     <div>

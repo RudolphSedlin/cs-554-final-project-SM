@@ -101,7 +101,7 @@ export async function createUser(prevState, formData) {
   }
 }
 
-export async function loginUser(prevState, formData) {
+export async function actionLogin(prevState, formData) {
   let email, password = null;
   let id = null;
   let success = false;

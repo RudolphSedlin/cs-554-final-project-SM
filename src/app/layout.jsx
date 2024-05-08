@@ -1,7 +1,7 @@
 import {Inter} from 'next/font/google';
 import './globals.css';
 import Link from 'next/link';
-import AuthProvider from '@/context/AuthContext';
+import {AuthProvider} from '@/context/AuthContext';
 const inter = Inter({subsets: ['latin']});
 
 export const metadata = {
@@ -15,7 +15,6 @@ export default function RootLayout({children}) {
     
       <html lang='en'>
         <body className={inter.className}>
-          <AuthProvider>
             <main className='layoutStyle'>
               <ul className='navClass center'>
                 <li className='nav'>
@@ -28,9 +27,11 @@ export default function RootLayout({children}) {
                   <Link href={'/login'}>Login</Link>
                 </li>
               </ul>
-              {children}
+              <AuthProvider>
+                {children}
+              </AuthProvider>
             </main>
-            </AuthProvider>
+          
         </body>
       </html>
     
