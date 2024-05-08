@@ -1,5 +1,6 @@
 import * as valid from './valid.js';
 import { posts } from '../config/mongoCollections.js';
+import { ObjectId } from 'mongodb';
 
 export const createPostDB = async (title, body, author, tags, visibility) => {
 	title = valid.validString(title, { max: 50 });
@@ -32,4 +33,16 @@ export const createPostDB = async (title, body, author, tags, visibility) => {
 		title,
 		body
 	};
+};
+
+export const getPostDB = async (id) => {
+	id = valid.validObjectId(id);
+	id = new ObjectId(id);
+
+	const postsCollection = await posts();
+	const post = await postsCollection.findOne({ _id: id });
+	if (post === null)
+		throw `Post retrieval error: No post with ObjectId ${id}`;
+
+	return post;
 };
