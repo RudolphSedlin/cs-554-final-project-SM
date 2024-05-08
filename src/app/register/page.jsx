@@ -41,7 +41,7 @@ function register() {
           passwordTwo: passwordTwo
         })
       });
-      const data = JSON.stringify(await response.json());
+      const data = await response.json();
       if (data.success) {
         router.push('/login');
       } else {
