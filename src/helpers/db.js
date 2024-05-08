@@ -14,10 +14,10 @@ export const createUserDB = async (
 ) => {
 	firstName = valid.validName(firstName, 25);
 	lastName = valid.validName(lastName, 25);
-	username = valid.validString(username, { regex: /^[A-Za-z0-9]+$/ });
-	email = valid.validString(email, { regex: /^\S+@\S+\.\S+$/ });
-	password = valid.validString(password, { min: 12, max: 30 });
-	bio = valid.validString(bio, { max: 200, optional: true });
+	username = valid.validString(username, { regex: /^[A-Za-z0-9]+$/ }, 'Username');
+	email = valid.validString(email, { regex: /^\S+@\S+\.\S+$/ }, 'E-mail');
+	password = valid.validString(password, { min: 12, max: 30 }, 'Password');
+	bio = valid.validString(bio, { max: 200, optional: true }, 'Bio');
 	// TODO: validate picture
 
 	let { success, data } = await registerUser(email, password);

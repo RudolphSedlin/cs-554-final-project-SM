@@ -1,6 +1,6 @@
 import { ObjectId } from 'mongodb';
 
-export const validString = (string, options) => {
+export const validString = (string, options, type) => {
 	if (options && options.optional) {
 		if (!string) {
 			return string;
@@ -15,13 +15,13 @@ export const validString = (string, options) => {
 
 	if (options) {
 		if (options.min && string.length < options.min)
-			throw `${string} is too short; minimum length is ${options.min}`;
+			throw `${type} is too short; minimum length is ${options.min}`;
 		if (options.max && string.length > options.max)
-			throw `${string} is too long; maximum length is ${options.max}`;
+			throw `${type} is too long; maximum length is ${options.max}`;
 		if (options.regex && !options.regex.test(string))
-			throw `${string} does not match requirements`;
+			throw `${type} does not match requirements`;
 		if (options.objectId && !ObjectId.isValid(string))
-			throw `${string} is not a valid MongoDB ObjectId`;
+			throw `${type} is not a valid MongoDB ObjectId`;
 	}
 
 	return string;
@@ -56,7 +56,7 @@ export const validDate = (date, options) => {
 	if (!date) throw 'No date provided';
 	date = validString(date, {
 		regex: /^(0?[1-9]|1[012])\/(0?[1-9]|[12][0-9]|3[01])\/\d{4}$/
-	});
+	}, 'Date');
 	let [month, day, year] = date.split('/');
 	month = parseInt(month);
 	day = parseInt(day);
@@ -108,7 +108,7 @@ export const validDate = (date, options) => {
 
 export const validName = (name, max) => {
 	if (!name) throw 'No name provided';
-	name = validString(name, { max: max, regex: /^[A-Za-z ]+$/ });
+	name = validString(name, { max: max, regex: /^[A-Za-z ]+$/ }, 'Name');
 
 	return name;
 };
