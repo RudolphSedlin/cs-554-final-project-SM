@@ -23,31 +23,35 @@ function Posts() {
 	posts.sort((a, b) => b.created_timestamp - a.created_timestamp);
 
 	return (
-		<div className={styles.postsContainer}>
-			{posts.map((post) => (
-				<div key={post._id} className={styles.postCard}>
-					<p className={styles.postAuthorName}>
-						from @{post.authorUsername}
-					</p>
-					<h2 className={styles.postTitle}>{post.title}</h2>
-					<p className={styles.postContent}>{post.body}</p>
-					<div className={styles.interactions}>
-						<span>Likes: {post.likes.length}</span>
-						<span>Comments: {post.comments.length}</span>
-						<span>
-							{new Date(post.created_timestamp).toLocaleString()}
-						</span>
-					</div>
-					<div className={styles.tagContainer}>
-						{post.tags.map((tag) => (
-							<span key={tag} className={styles.tag}>
-								{tag}
+		<>
+			<div className={styles.postsContainer}>
+				{posts.map((post) => (
+					<div key={post._id} className={styles.postCard}>
+						<p className={styles.postAuthorName}>
+							from @{post.authorUsername}
+						</p>
+						<h2 className={styles.postTitle}>{post.title}</h2>
+						<p className={styles.postContent}>{post.body}</p>
+						<div className={styles.interactions}>
+							<span>Likes: {post.likes.length}</span>
+							<span>Comments: {post.comments.length}</span>
+							<span>
+								{new Date(
+									post.created_timestamp
+								).toLocaleString()}
 							</span>
-						))}
+						</div>
+						<div className={styles.tagContainer}>
+							{post.tags.map((tag) => (
+								<span key={tag} className={styles.tag}>
+									{tag}
+								</span>
+							))}
+						</div>
 					</div>
-				</div>
-			))}
-		</div>
+				))}
+			</div>
+		</>
 	);
 }
 

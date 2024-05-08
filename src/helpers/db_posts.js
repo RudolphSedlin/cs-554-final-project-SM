@@ -52,3 +52,14 @@ export const getPostsDB = async () => {
 	console.log(`Got posts: ${JSON.stringify(postsArr)}`);
 	return postsArr;
 };
+
+export const getPostsBySearchTermDB = async (term) => {
+	term = valid.validString(term, { max: 50 });
+	const postsCollection = await posts();
+	await postsCollection.createIndex({ title: 'text' });
+	const postsArr = await postsCollection
+		.find({ $text: { $search: term } })
+		.toArray();
+	console.log(`Got posts: ${JSON.stringify(postsArr)}`);
+	return postsArr;
+};
