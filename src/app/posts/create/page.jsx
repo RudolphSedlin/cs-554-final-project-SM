@@ -73,6 +73,7 @@ function CreatePost() {
 				<label className={styles.myLabel}>
 					Body: <br />
 					<textarea
+						style={{width: '233px', height: '200px'}}
 						className={styles.myInput}
 						onChange={(e) => setBody(e.target.value)}
 						name="body"
