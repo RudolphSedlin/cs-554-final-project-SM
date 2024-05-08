@@ -2,6 +2,7 @@ import * as valid from './valid.js';
 import { users } from '../config/mongoCollections.js';
 import { ObjectId } from 'mongodb';
 import { loginUser, registerUser } from '../firebase/firebase.js';
+import { updateProfile } from '../firebase/firebaseConfig.js'
 
 export const createUserDB = async (
 	firstName,
@@ -26,7 +27,7 @@ export const createUserDB = async (
 
 	let { success, data } = await registerUser(email, password);
 	if (!success) throw `User registration error: ${data}`;
-
+	await updateProfile(data, {displayName: username});
 	let userData = {
 		uid: data.uid,
 		name: { first: firstName, last: lastName },

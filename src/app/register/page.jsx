@@ -1,7 +1,8 @@
 'use client'
  
 import React, {useContext, useState} from 'react';
-import { AuthContext } from '../../context/AuthContext';
+import { useRouter } from 'next/navigation';
+import { useAuthContext } from '../../context/AuthContext';
 import styles from '@/app/form.module.css';
 import {useFormState as useFormState} from 'react-dom';
 import { createUser } from '../actions';
@@ -10,7 +11,11 @@ const initialState = {
 };
 
 function register() {
-  
+  const router = useRouter();
+  const {user} = useAuthContext();
+  if (user){
+    return router.push('/');
+  }
   const [state, formAction] = useFormState(createUser, initialState);
 
   return (

@@ -1,18 +1,22 @@
 'use client';
-import { redirect, useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';
+import { refreshPage } from '@/revalidate';
 import styles from '@/app/form.module.css';
 import { useFormState as useFormState } from 'react-dom';
 import { loginUser } from '@/firebase/firebase';
 import { useState } from 'react';
 import { validStringNoId } from '@/helpers/valid2';
-const initialState = {
-	message: null
-};
+import { useAuthContext } from '@/context/AuthContext';
 
 function Login() {
+	const router = useRouter();
+	const { user } = useAuthContext();
+	if (user) {
+		return router.push('/');
+	}
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
-	const router = useRouter();
+
 	//const [state, formAction] = useFormState(loginUser, initialState);
 	const handleForm = async (event) => {
 		event.preventDefault();
@@ -23,11 +27,11 @@ function Login() {
 		const { success, data } = await loginUser(confirmEmail, confirmPass);
 
 		if (!success) {
-			console.log(`ERROR: ${data}`);
-			return data;
+			return console.log(data);
 		}
 		// else successful
 		console.log(data);
+		await refreshPage();
 		return router.push('/private');
 	};
 	return (

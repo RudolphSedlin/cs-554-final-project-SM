@@ -4,7 +4,8 @@ import {
 	createUserWithEmailAndPassword,
 	signInWithEmailAndPassword,
 	signOut,
-	onAuthStateChanged
+	onAuthStateChanged,
+	updateProfile
 } from 'firebase/auth';
 import 'dotenv/config';
 const firebaseConfig = {
@@ -26,5 +27,6 @@ export {
 	createUserWithEmailAndPassword,
 	signInWithEmailAndPassword,
 	signOut,
-	onAuthStateChanged
+	onAuthStateChanged,
+	updateProfile
 };
