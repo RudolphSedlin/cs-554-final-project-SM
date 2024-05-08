@@ -20,7 +20,7 @@ function Posts() {
 		fetchPosts();
 	}, []);
 
-	const router = useRouter();
+	posts.sort((a, b) => b.created_timestamp - a.created_timestamp);
 
 	return (
 		<div className={styles.postsContainer}>

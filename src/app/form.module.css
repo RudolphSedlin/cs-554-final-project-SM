@@ -18,12 +18,18 @@
   background: #ddd;
   color: #1e8678;
   border-color: #333;
+  border-radius: 8px;
   width: max-content;
   padding: 0.5em 1em;
   font-weight: bold;
   margin-top: 2em;
   font-size: 1.2rem;
 }
+
+.myButton:hover {
+    color: #ddd;
+    background: #1e8678;
+  }
 
 .form-group {
   margin-bottom: 1rem;
