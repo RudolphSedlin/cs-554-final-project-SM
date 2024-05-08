@@ -7,10 +7,9 @@ import {
 	onAuthStateChanged
 } from 'firebase/auth';
 import 'dotenv/config';
-
 const firebaseConfig = {
 	/* eslint-disable-next-line no-undef */
-	apiKey: process.env.FIREBASE_API_KEY,
+	apiKey: "AIzaSyAC9_o4L4F3nG3ZemOA3x_DcBAjnDdTDsw",
 	authDomain: 'forumblogs-cs554.firebaseapp.com',
 	projectId: 'forumblogs-cs554',
 	storageBucket: 'forumblogs-cs554.appspot.com',

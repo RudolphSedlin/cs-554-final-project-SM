@@ -1,7 +1,7 @@
 import * as valid from './valid.js';
-import { users } from '../dbconfig/mongoCollections.js';
+import { users } from '../config/mongoCollections.js';
 import { ObjectId } from 'mongodb';
-import { registerUser } from './firebase.js';
+import { loginUser, registerUser } from '../firebase/firebase.js';
 
 export const createUserDB = async (
 	firstName,
@@ -73,6 +73,5 @@ export const getUserFromUsernameDB = async (username) => {
 export const loginUserDB = async (email, password) => {
 	email = valid.validString(email, { regex: /^\S+@\S+\.\S+$/ });
 	password = valid.validString(password, { min: 12, max: 30 });
-
-	return true;
+	return await loginUser(email, password);
 };

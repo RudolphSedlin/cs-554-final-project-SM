@@ -3,7 +3,7 @@ import {
 	createUserWithEmailAndPassword,
 	signInWithEmailAndPassword,
 	signOut
-} from '../firebaseConfig.js';
+} from './firebaseConfig.js';
 const authErrors = {
 	'admin-restricted-operation':
 		'This operation is restricted to administrators only.',
