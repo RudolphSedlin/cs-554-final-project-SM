@@ -4,11 +4,6 @@ import React, { useContext, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuthContext } from '../../context/AuthContext';
 import styles from '@/app/form.module.css';
-import { useFormState as useFormState } from 'react-dom';
-import { createUser } from '../actions';
-const initialState = {
-	message: null
-};
 
 function register() {
 	const router = useRouter();
@@ -16,7 +11,7 @@ function register() {
 	if (user) {
 		return router.push('/');
 	}
-	const [state, formAction] = useFormState(createUser, initialState);
+
 	const [firstName, setFirstName] = useState('');
 	const [lastName, setLastName] = useState('');
 	const [username, setUsername] = useState('');
