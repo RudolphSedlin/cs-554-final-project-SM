@@ -1,19 +1,21 @@
 'use client'
-import {redirect, useRouter} from 'next/navigation';
+import {useRouter} from 'next/navigation';
+import { refreshPage } from '@/revalidate';
 import styles from '@/app/form.module.css';
-import {useFormState as useFormState} from 'react-dom';
 import { loginUser } from '@/firebase/firebase';
 import { useState } from 'react';
 import { validStringNoId } from '@/helpers/valid2';
-const initialState = {
-  message: null
-};
+import { useAuthContext } from '@/context/AuthContext';
 
 function login() {
-
+  const router = useRouter();
+  const {user} = useAuthContext();
+  if (user){
+    return router.push('/');
+  }
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const router = useRouter();
+  
   //const [state, formAction] = useFormState(loginUser, initialState);
   const handleForm = async (event) => {
     event.preventDefault()
@@ -26,7 +28,8 @@ function login() {
     }
     // else successful
     console.log(data);
-    return router.push('/private')
+    await refreshPage();
+    return router.push('/private');
   }
   return (
     <form onSubmit={handleForm} className={styles.myform}>
