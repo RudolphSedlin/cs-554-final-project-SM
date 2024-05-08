@@ -7,6 +7,7 @@ import { useState } from 'react';
 import { validStringNoId } from '@/helpers/valid2';
 import { useAuthContext } from '@/context/AuthContext';
 
+
 function login() {
   const router = useRouter();
   const {user} = useAuthContext();
@@ -16,21 +17,23 @@ function login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   
-  //const [state, formAction] = useFormState(loginUser, initialState);
   const handleForm = async (event) => {
-    event.preventDefault()
+    event.preventDefault();
     const confirmEmail = validStringNoId(email, { regex: /^\S+@\S+\.\S+$/ });
     const confirmPass = validStringNoId(password, { min: 12, max: 30 });
     const { success, data } = await loginUser(confirmEmail, confirmPass);
 
     if (!success) {
-        return console.log(data)
+        console.log(data);
+        return router.push('/login/error');
     }
-    // else successful
-    console.log(data);
-    await refreshPage();
-    return router.push('/private');
+    else{
+      console.log(data);
+      //await refreshPage();
+      return router.push('/private');
+    }
   }
+  
   return (
     <form onSubmit={handleForm} className={styles.myform}>
       <div className='form-group'>

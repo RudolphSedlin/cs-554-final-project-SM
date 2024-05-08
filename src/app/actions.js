@@ -1,8 +1,10 @@
 'use server';
 import { validName } from '../helpers/valid';
-import { redirect } from 'next/navigation';
+import { redirect, useRouter } from 'next/navigation';
+import { useContext } from 'react';
 import { revalidatePath } from 'next/cache';
 import { createUserDB, loginUserDB } from '../helpers/db_users';
+import { refreshReg } from '@/revalidate';
 
 export async function createPost(prevState, formData) {
 	let title,
@@ -66,6 +68,7 @@ export async function createPost(prevState, formData) {
 }
 
 export async function createUser(prevState, formData) {
+	//const router = useRouter();
 	let firstName,
 		lastName,
 		username,
@@ -102,16 +105,12 @@ export async function createUser(prevState, formData) {
 			//redirect(`/posts/${id}`); // Navigate to new route
 		} catch (e) {
 			return { message: e };
-		} finally {
-			if (success) {
-				revalidatePath('/register');
-				redirect(`/`); // Navigate to new route
-			}
 		}
 	}
 }
 
 export async function actionLogin(prevState, formData) {
+	
 	let email,
 		password = null;
 	let id = null;

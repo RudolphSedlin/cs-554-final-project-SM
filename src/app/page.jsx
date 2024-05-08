@@ -11,7 +11,7 @@ export default function Home() {
 			{user ? (
 				<>
 					<p>
-						Welcome to Forumblogs! You are logged in as {user.name}!
+						Welcome to Forumblogs! You are logged in as {user.displayName}!
 					</p>
 				</>
 			) : (
