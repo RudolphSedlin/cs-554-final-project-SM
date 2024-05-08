@@ -75,7 +75,7 @@ export async function createUser(prevState, formData) {
 		email,
 		passwordOne,
 		passwordTwo = null;
-	let id = null;
+	//let id = null;
 	let success = false;
 	let errors = [];
 	firstName = formData.get('firstName');
