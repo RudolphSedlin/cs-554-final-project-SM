@@ -88,7 +88,6 @@ export async function createUser(prevState, formData) {
         email,
         passwordOne,
         'testbio', 'testpic');
-      id = newUser._id.toString();
       success = true;
       //redirect(`/posts/${id}`); // Navigate to new route
     } catch (e) {
@@ -115,7 +114,6 @@ export async function loginUser(prevState, formData) {
   } else {
     try {
       let loginUser = await loginUserDB(email, password);
-      id = loginUser._id.toString();
       success = true;
       //redirect(`/posts/${id}`); // Navigate to new route
     } catch (e) {

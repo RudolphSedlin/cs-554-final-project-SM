@@ -1,7 +1,6 @@
 'use client'
- 
-import React, {useContext, useState} from 'react';
-import { AuthContext } from '../../context/AuthContext';
+import {redirect} from 'next/navigation';
+
 import styles from '@/app/form.module.css';
 import {useFormState as useFormState} from 'react-dom';
 import { loginUser } from '../actions';
@@ -12,7 +11,7 @@ const initialState = {
 function login() {
   
   const [state, formAction] = useFormState(loginUser, initialState);
-
+ 
   return (
     <form action = {formAction} className={styles.myform}>
       {state && state.message}
