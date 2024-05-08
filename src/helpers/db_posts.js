@@ -45,3 +45,10 @@ export const getPostDB = async (id) => {
 
 	return post;
 };
+
+export const getPostsDB = async () => {
+	const postsCollection = await posts();
+	const postsArr = await postsCollection.find({}).toArray();
+	console.log(`Got posts: ${JSON.stringify(postsArr)}`);
+	return postsArr;
+};
