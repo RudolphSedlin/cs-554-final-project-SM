@@ -6,7 +6,7 @@ export async function GET(req) {
 	const uid = url.searchParams.get('uid');
 	try {
 		const user = await getUserFromUidDB(uid);
-		console.log(user);
+		console.log(`Found user: ${JSON.stringify(user)}`);
 		return NextResponse.json(user, { status: 200 });
 	} catch (error) {
 		return NextResponse.json({ error: error.message }, { status: 500 });
