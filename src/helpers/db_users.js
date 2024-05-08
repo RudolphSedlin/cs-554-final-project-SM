@@ -15,7 +15,11 @@ export const createUserDB = async (
 ) => {
 	firstName = valid.validName(firstName, 25);
 	lastName = valid.validName(lastName, 25);
-	username = valid.validString(username, { regex: /^[A-Za-z0-9]+$/ }, 'Username');
+	username = valid.validString(
+		username,
+		{ regex: /^[A-Za-z0-9]+$/ },
+		'Username'
+	);
 	email = valid.validString(email, { regex: /^\S+@\S+\.\S+$/ }, 'E-mail');
 	password = valid.validString(password, { min: 12, max: 30 }, 'Password');
 	bio = valid.validString(bio, { max: 200, optional: true }, 'Bio');
@@ -57,6 +61,16 @@ export const getUserDB = async (objectId) => {
 	const user = await usersCollection.findOne({ _id: objectId });
 	if (user === null)
 		throw `User retrieval error: No user with ObjectId ${objectId}`;
+
+	return user;
+};
+
+export const getUserFromUidDB = async (uid) => {
+	uid = valid.validString(uid);
+
+	const usersCollection = await users();
+	const user = await usersCollection.findOne({ uid: uid });
+	if (user === null) throw `User retrieval error: No user with uid ${uid}`;
 
 	return user;
 };
