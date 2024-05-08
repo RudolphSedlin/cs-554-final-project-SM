@@ -5,7 +5,7 @@ import { useAuthContext, AuthContext } from '@/context/AuthContext';
 
 export default function Home() {
 	const { user } = useAuthContext();
-	console.log(user);
+	console.log(`USER: ${user}`);
 	return (
 		<div>
 			{user ? (
