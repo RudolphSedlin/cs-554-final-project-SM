@@ -17,11 +17,20 @@ export async function POST(req) {
 			{ status: 500 }
 		);
 	}
-
+	const existUser = await getUserFromUsernameDB(username);
+	if (existUser){
+	return NextResponse.json(
+		{
+			success: false,
+			error: `Username taken. Please try again.`
+		},
+		{ status: 500 }
+	);
+	}
 	try {
 		const user = await createUserDB(firstName, lastName, username, email, passwordOne, bio, pic);
 		return NextResponse.json(
-			{ success: true, user },
+			{ success: true },
 			{ status: 200 }
 		);
 	} catch (error) {

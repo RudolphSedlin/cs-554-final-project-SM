@@ -26,32 +26,30 @@ function register() {
 
   const handleForm = async (event) => {
 		event.preventDefault();
-		if (user != null) {
-			try {
-				const response = await fetch('/api/register', {
-					method: 'POST',
-					headers: {
-						'Content-Type': 'application/json'
-					},
-					body: JSON.stringify({
-						firstName: firstName,
-            lastName: lastName,
-            username: username,
-            email: email,
-            passwordOne: passwordOne,
-            passwordTwo: passwordTwo
-					})
-				});
-				const data = await response.json();
-				if (data.success) {
-					router.push('/login');
-				} else {
-					console.error('Failed to register user:', data.message);
-				}
-			} catch (error) {
-				console.error('Error submitting form:', error);
-			}
-		}
+    try {
+      const response = await fetch('/api/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          firstName: firstName,
+          lastName: lastName,
+          username: username,
+          email: email,
+          passwordOne: passwordOne,
+          passwordTwo: passwordTwo
+        })
+      });
+      const data = await response.json();
+      if (data.success) {
+        router.push('/login');
+      } else {
+        console.error('Failed to register user1:', data);
+      }
+    } catch (error) {
+      console.error('Error submitting form:', error);
+    }
 	};
 
 
