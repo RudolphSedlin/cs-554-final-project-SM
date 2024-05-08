@@ -54,9 +54,13 @@ const _isLeapYear = (year) => {
 
 export const validDate = (date, options) => {
 	if (!date) throw 'No date provided';
-	date = validString(date, {
-		regex: /^(0?[1-9]|1[012])\/(0?[1-9]|[12][0-9]|3[01])\/\d{4}$/
-	}, 'Date');
+	date = validString(
+		date,
+		{
+			regex: /^(0?[1-9]|1[012])\/(0?[1-9]|[12][0-9]|3[01])\/\d{4}$/
+		},
+		'Date'
+	);
 	let [month, day, year] = date.split('/');
 	month = parseInt(month);
 	day = parseInt(day);
@@ -111,4 +115,18 @@ export const validName = (name, max) => {
 	name = validString(name, { max: max, regex: /^[A-Za-z ]+$/ }, 'Name');
 
 	return name;
+};
+
+export const validArray = (arr, options) => {
+	if (!arr) throw 'No array provided';
+	if (!Array.isArray(arr)) throw `Expected array, got ${typeof arr}`;
+	for (let e of arr) {
+		if (options) {
+			if (!options.nullOk && e == null)
+				throw `Null elements not allowed in array`;
+			if (!options.type && typeof e !== options.type)
+				throw `Only elements of type ${options.type} allowed in array`;
+		}
+	}
+	return arr;
 };
