@@ -39,13 +39,13 @@ function CreatePost() {
 					body: JSON.stringify({
 						title: title,
 						body: body,
-						username: 'jjohn123',
+						username: user.displayName,
 						tags: tags
 					})
 				});
 				const data = await response.json();
 				if (data.success) {
-					router.push('/private');
+					router.push('/posts');
 				} else {
 					console.error('Failed to create post:', data.message);
 				}
@@ -59,7 +59,7 @@ function CreatePost() {
 		<form onSubmit={handleForm} className={styles.myform}>
 			<div className="form-group">
 				<label className={styles.myLabel}>
-					Title:
+					Title: <br />
 					<input
 						className={styles.myInput}
 						onChange={(e) => setTitle(e.target.value)}
@@ -68,9 +68,10 @@ function CreatePost() {
 					/>
 				</label>
 			</div>
+			<br />
 			<div className="form-group">
 				<label className={styles.myLabel}>
-					Body:
+					Body: <br />
 					<textarea
 						className={styles.myInput}
 						onChange={(e) => setBody(e.target.value)}
@@ -78,9 +79,10 @@ function CreatePost() {
 					/>
 				</label>
 			</div>
+			<br />
 			<div className="form-group">
 				<label className={styles.myLabel}>
-					Tags:
+					Tags (ex: tagA,tagB,tagC): <br />
 					<input
 						className={styles.myInput}
 						onChange={(e) => setTags(e.target.value)}
@@ -89,6 +91,7 @@ function CreatePost() {
 					/>
 				</label>
 			</div>
+			<br />
 			<div className="form-group">
 				<button className={styles.myButton} type="submit">
 					Post
