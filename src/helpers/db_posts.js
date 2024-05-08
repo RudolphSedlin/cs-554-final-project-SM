@@ -41,8 +41,7 @@ export const getPostDB = async (id) => {
 
 	const postsCollection = await posts();
 	const post = await postsCollection.findOne({ _id: id });
-	if (post === null)
-		throw `Post retrieval error: No post with ObjectId ${id}`;
+	if (post === null) throw `Post retrieval error: No post with id ${id}`;
 
 	return post;
 };
