@@ -1,5 +1,9 @@
-import { createUserDB } from './src/helpers/db.js';
-import { loginUser, logoutUser, registerUser } from './src/firebase/firebase.js';
+import { createUserDB } from './src/helpers/db_users.js';
+import {
+	loginUser,
+	logoutUser,
+	registerUser
+} from './src/firebase/firebase.js';
 
 // try {
 // 	let user = await createUserDB(
