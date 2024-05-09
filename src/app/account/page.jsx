@@ -41,8 +41,10 @@ export default function account() {
         return (
             <div>
                 <h1>{dbUser.username}'s Profile</h1>
-                <h2>Full Name: {dbUser.name.first} {dbUser.name.last}</h2>
+                <h2>Name: {dbUser.name.first} {dbUser.name.last}</h2>
+                <h2>About Me:</h2>
                 <p>{dbUser.profile.bio}</p>
+                <br></br>
                 <br></br>
                 <ul className='navClass center'>
                     <li className='nav'>
