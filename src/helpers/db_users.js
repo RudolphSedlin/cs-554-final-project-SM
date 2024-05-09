@@ -80,6 +80,8 @@ export const getUserFromUsernameDB = async (username) => {
 
 	const usersCollection = await users();
 	const user = await usersCollection.findOne({ username: username });
+	if (user === null)
+		throw `User retrieval error: No user with username ${username}`;
 	return user;
 };
 
