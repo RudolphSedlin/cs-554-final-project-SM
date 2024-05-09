@@ -2,38 +2,55 @@
 import '../globals.css';
 import Link from 'next/link';
 import {AuthProvider, AuthContext, useAuthContext} from '@/context/AuthContext';
+import { useState, useEffect } from 'react';
 
 
 
-export default async function account() {
+export default function account() {
     let {user} = useAuthContext();
     console.log(user);
-    let userInfo = <div></div>;
+    const [dbUser, setDBUser] = useState(null);
     if (user != null) {
-        try {
-            const response = await fetch('/api/account', {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    username: user.displayName
-                })
-            });
-            const data = await response.json();
-            if (data.success) {
-                const dbUser = data.user;
-                userInfo = <div>
-                    <h1>{dbUser.username}'s Profile</h1>
-                    <h2>Full Name: {dbUser.name.first} {dbUser.name.last}</h2>
-                    <p>{dbUser.bio}</p>
-                </div>;
-            } else {
-                console.error('Failed to fetch user:', data.message);
+        useEffect(() => {
+            async function fetchUser() {
+                try {
+                    const response = await fetch('/api/account', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            username: user.displayName
+                        })
+                    });
+                    const data = await response.json();
+                    console.log(data.user);
+                    if (data.success) {
+                        setDBUser(data.user);
+                    } else {
+                        console.error('Failed to fetch user:', data.message);
+                    }
+                } catch (error) {
+                    console.error('Error submitting form:', error);
+                }
             }
-        } catch (error) {
-            console.error('Error submitting form:', error);
-        }
+            fetchUser();
+        }, []);
+    }
+    if (dbUser){
+        return (
+            <div>
+                <h1>{dbUser.username}'s Profile</h1>
+                <h2>Full Name: {dbUser.name.first} {dbUser.name.last}</h2>
+                <p>{dbUser.profile.bio}</p>
+                <br></br>
+                <ul className='navClass center'>
+                    <li className='nav'>
+                        <Link href={'/logout'} hidden = {!user}>Logout</Link>
+                    </li>
+                </ul>
+            </div>
+        );
     }
     return (
         <div>
