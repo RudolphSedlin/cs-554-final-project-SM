@@ -6,6 +6,7 @@ import { revalidatePath } from 'next/cache';
 import { createUserDB, loginUserDB } from '../helpers/db_users';
 import { refreshReg } from '@/revalidate';
 
+
 export async function createPost(prevState, formData) {
 	let title,
 		body,
@@ -69,12 +70,14 @@ export async function createPost(prevState, formData) {
 
 export async function createUser(prevState, formData) {
 	//const router = useRouter();
+
 	let firstName,
 		lastName,
 		username,
 		email,
 		passwordOne,
 		passwordTwo = null;
+
 	//let id = null;
 	let success = false;
 	let errors = [];
@@ -110,7 +113,6 @@ export async function createUser(prevState, formData) {
 }
 
 export async function actionLogin(prevState, formData) {
-	
 	let email,
 		password = null;
 	let id = null;
@@ -130,7 +132,7 @@ export async function actionLogin(prevState, formData) {
 			return { message: e };
 		} finally {
 			if (success) {
-				revalidatePath('/login');
+				revalidatePath('/register');
 				redirect(`/`); // Navigate to new route
 			}
 		}
