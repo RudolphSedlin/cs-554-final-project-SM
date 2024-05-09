@@ -11,8 +11,12 @@ export default function Home() {
 			{user ? (
 				<>
 					<p>
-						Welcome to Forumblogs! You are logged in as {user.displayName}!
+						Welcome to Forumblogs! You are logged in as {user.displayName}.
 					</p>
+					<p>
+						Go check out the Forum in Posts!
+					</p>
+					
 				</>
 			) : (
 				<>

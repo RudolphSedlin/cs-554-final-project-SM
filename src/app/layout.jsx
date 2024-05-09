@@ -18,16 +18,16 @@ export default function RootLayout({ children }) {
 					<AuthProvider>
 						<ul className="navClass center">
 							<li className="nav">
-								<Link href={'/'}>Home</Link>
+								<Link href={'/'}>🏠Home</Link>
 							</li>
 							<li className="nav">
-								<Link href={'/account'}>Account</Link>
+								<Link href={'/account'}>🧑Account</Link>
 							</li>
 							<li className="nav">
-								<Link href={'/posts'}>Posts</Link>
+								<Link href={'/posts'}>🏛️Posts</Link>
 							</li>
 							<li className="nav">
-								<Link href={'/posts/create'}>Create Post</Link>
+								<Link href={'/posts/create'}>📝Create Post</Link>
 							</li>
 						</ul>
 

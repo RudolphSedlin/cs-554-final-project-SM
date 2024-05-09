@@ -67,7 +67,7 @@
 .postAuthorName {
     color: #878787;
     font-weight: 300;
-    font-size: small;
+    font-size: medium;
 }
 
 .postTitle {
@@ -77,12 +77,12 @@
 
 .postContent {
     font-weight: 400;
-    color: #000;
+    color: #0d2aa1;
 }
 
 .interactions {
     padding: 5px;
-    color: #002358;
+    color: #0d2aa1;
     display: flex;
     justify-content: space-between;
     margin-top: 10px;

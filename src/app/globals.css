@@ -14,10 +14,19 @@ body {
 }
 
 h1,
-h2,
 p {
   color: #dedbdb;
   padding: 5px;
+}
+body {
+  background: #1e8678;
+}
+
+h2
+{
+  color: #dedbdb;
+  padding: 5px;
+  margin-top: 20px;
 }
 body {
   background: #1e8678;
@@ -39,6 +48,7 @@ ul {
   list-style: none;
 }
 li.nav {
+  font-weight: 1000;
   list-style: none;
   font-size: 18px;
 }
