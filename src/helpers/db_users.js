@@ -2,6 +2,7 @@ import * as valid from './valid.js';
 import { users } from '../config/mongoCollections.js';
 import { ObjectId } from 'mongodb';
 import { loginUser, registerUser } from '../firebase/firebase.js';
+import { updateProfile } from '../firebase/firebaseConfig.js';
 
 export const createUserDB = async (
 	firstName,
@@ -14,15 +15,19 @@ export const createUserDB = async (
 ) => {
 	firstName = valid.validName(firstName, 25);
 	lastName = valid.validName(lastName, 25);
-	username = valid.validString(username, { regex: /^[A-Za-z0-9]+$/ });
-	email = valid.validString(email, { regex: /^\S+@\S+\.\S+$/ });
-	password = valid.validString(password, { min: 12, max: 30 });
-	bio = valid.validString(bio, { max: 200, optional: true });
+	username = valid.validString(
+		username,
+		{ regex: /^[A-Za-z0-9]+$/ },
+		'Username'
+	);
+	email = valid.validString(email, { regex: /^\S+@\S+\.\S+$/ }, 'E-mail');
+	password = valid.validString(password, { min: 12, max: 30 }, 'Password');
+	bio = valid.validString(bio, { max: 200, optional: true }, 'Bio');
 	// TODO: validate picture
 
 	let { success, data } = await registerUser(email, password);
 	if (!success) throw `User registration error: ${data}`;
-
+	await updateProfile(data, { displayName: username });
 	let userData = {
 		uid: data.uid,
 		name: { first: firstName, last: lastName },
@@ -56,6 +61,16 @@ export const getUserDB = async (objectId) => {
 	const user = await usersCollection.findOne({ _id: objectId });
 	if (user === null)
 		throw `User retrieval error: No user with ObjectId ${objectId}`;
+
+	return user;
+};
+
+export const getUserFromUidDB = async (uid) => {
+	uid = valid.validString(uid);
+
+	const usersCollection = await users();
+	const user = await usersCollection.findOne({ uid: uid });
+	if (user === null) throw `User retrieval error: No user with uid ${uid}`;
 
 	return user;
 };
